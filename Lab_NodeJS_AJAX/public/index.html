@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Lab</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .task-description,
+        .list-group {
+            font-size: 1.25em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>AJAX Lab</h2>
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#conceptTab">Concept</a></li>
+            <li><a href="#getTab">GET</a></li>
+            <li><a href="#postTab">POST</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+            <div id="conceptTab" class="tab-pane fade in active">
+                <h1></h1>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Your name:</label>
+                        <div class="col-md-4">
+                            <input name="txtTest" id="txtTest" type="text" class="form-control input-md">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="textinput">Other data:</label>
+                        <div class="col-md-4">
+                            <input name="txtOther" id="txtOther" type="text" class="form-control input-md">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="button1id"></label>
+                        <div class="col-md-8">
+                            <button type="button" id="button1id" name="button1id" class="btn btn-danger" onclick='MakeRequestSync()'>Hello</button>
+                            <button type="button" id="button2id" name="button2id" class="btn btn-success" onclick='MakeRequestAsync()'>Hello (AJAX)</button> &nbsp;
+                            <span id='ResponseDiv'></span>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!-- end of conceptTab -->
+
+            <div id="getTab" class="tab-pane fade">
+                <h1></h1>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="nameTextBox">Your name:</label>
+                        <div class="col-md-4">
+                            <input name="nameTextBox" id="nameTextBox" type="text" class="form-control input-md">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="otherTextBox">Other data:</label>
+                        <div class="col-md-4">
+                            <input name="otherTextBox" id="otherTextBox" type="text" class="form-control input-md">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="button1id"></label>
+                        <div class="col-md-8">
+                            <button type="button" id="getButton" name="getButton" class="btn btn-success">Hello -- $.get()</button> &nbsp;
+                            <span id='reportSpan'></span>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!-- end of getTab -->
+
+            <div id="postTab" class="tab-pane fade">
+                <h1></h1>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="firstNameTextBox">FirstName:</label>
+                        <div class="col-md-4">
+                            <input name="firstNameTextBox" id="firstNameTextBox" type="text" class="form-control input-md">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="lastNameTextBox">LastName:</label>
+                        <div class="col-md-4">
+                            <input name="lastNameTextBox" id="lastNameTextBox" type="text" class="form-control input-md">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-4 control-label" for="button1id"></label>
+                        <div class="col-md-8">
+                            <button type="button" id="postButton" name="postButton" class="btn btn-success">Hello -- $.post(), $.ajax()</button> &nbsp;
+                            <span id='resultSpan'></span>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <!-- end of postTab -->
+
+        </div>
+    </div>
+
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script type='text/javascript' src='js/ajax_concept.js'></script>
+
+    <script>
+        $(document).ready(function() {
+            $(".nav-tabs a").click(function() {
+                $(this).tab('show');
+            });
+
+
+
+            $("#getButton").on("click", function() {
+                var s = $("#nameTextBox").val();
+
+                $.get("/hello/" + s, function(e) {
+                    $("#reportSpan").text(e);
+                })
+
+            })
+
+
+
+            // $("#postButton").on("click", function() {
+            //     var dataToServer = {
+            //         firstName: $("#firstNameTextBox").val(),
+            //         lastName: $("#lastNameTextBox").val()
+            //     }
+            //     $.post("/test", dataToServer,
+            //         function(e) {
+            //             $("#resultSpan").text(e);
+            //         }
+            //     )
+            // })
+
+
+            $("#postButton").on("click", function() {
+                var dataToServer = {
+                    firstName: $("#firstNameTextBox").val(),
+                    lastName: $("#lastNameTextBox").val()
+                }
+                //JSON格式用法
+                $.ajax({
+                    type: "post",//用什麼方式//post, get, put, delet(增查修刪)
+                    url: "/test",//朝什麼網址
+                    data: JSON.stringify(dataToServer)//丟什麼資料(內容如下)
+                })
+                //成功後，做什麼事
+                .then(function(dataFromServer){
+                    $("#resultSpan").text(dataFromServer);
+                })
+                    
+                    
+                
+            })
+
+
+
+
+        });
+    //     $(document).ready(function() {
+    //         $(".nav-tabs a").click(function() {
+    //             $(this).tab('show');
+    //         });
+    //         //呼叫 jQuery 的 get() 方法
+    //         $("#getButton").on("click", function() {
+    //             var who = $("#nameTextBox").val();
+    //             //傳送使用者輸入的人名給伺服器的 /hello 服務
+    //             $.get("/hello/" + who, function(dataFromServer) {
+    //                 //將伺服器傳回的結果顯示於 reportSpan
+    //                 $("#reportSpan").text(dataFromServer);
+    //             })
+
+    //         })
+    //         // //呼叫 jQuery 的 get() 方法
+    //         // $("#getButton").on("click", function() {
+    //         //     var who = $("#nameTextBox").prop("value");
+    //         //     var url = "/hello/" + who;
+    //         //     $.get(url, function(dataFromServer){
+    //         //         $("#reportSpan").text(dataFromSErver);
+    //         //     })
+            
+    //         //呼叫 jQuery 的 post() 方法
+    //         $("#postButton").on("click", function() {
+    //             //傳送使用者輸入的人名給伺服器的 /test 服務
+    //             var dataToServer = {
+    //                 firstName: $("#firstNameTextBox").val(),
+    //                 lastName: $("#lastNameTextBox").val()
+    //             }
+    //             $.post("/test", //假的資料夾的名字
+    //                 dataToServer,//送 147 var
+    //                 function(e) {
+    //                     $("#resultSpan").text(e);
+    //                 }
+    //             )
+    //         })
+
+
+
+
+
+    //             $("#reportSpan").text(s);
+    //         })
+
+
+
+    //         $("#postButton").on("click", function() {
+    //             var dataToServer = {
+    //                 firstName: $("#firstNameTextBox").val(),
+    //                 lastName: $("#lastNameTextBox").val()
+    //             }
+
+
+
+
+    //             $("#resultSpan").text(JSON.stringify(dataToServer));
+    //         })
+
+
+
+
+    //     });
+    // 
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnTry").click(function () {
+                // 在這裏寫程式
+
+                // $("#report")
+                //   .css("font-size","2em")
+                //   .css("font-style","italic");
+                $("#report").css({"font-size":"2em","font-style":"italic"})
+                
+                
+                
+                $("#betaRibbon").addClass("beta-ribbon");//"beta-ribbon"加入(addClass)betaRibbon
+                //$("#betaRibbon").removeClass("beta-ribbon");//"beta-ribbon"去除(addClass)betaRibbon
+                //$("#betaRibbon").toggleClass("beta-ribbon");//"beta-ribbon"切換(addClass)betaRibbon
+                
+                
+                
+                
+                
+                
+            })
+        });
+    </script>
+    <link rel="stylesheet" href="style.css" type="text/css"><!--套用..css-->
+</head>
+<body>
+
+<div class="beta-ribbon-wrapper">
+  <div id="betaRibbon">
+    <a href="/about/#beta">Beta</a>
+  </div>
+</div>
+
+<div id="report">Report:<br></div>
+<hr>
+<form action="" method="put" onsubmit="return false;">
+  <button type="button" id="btnTry">Try</button>
+</form>
+</body>
+</html>
